@@ -104,7 +104,7 @@ struct NonPermissionedBuilderOptions {
     #[arg(long, env = "ESPRESSO_BUILDER_GENESIS_FILE")]
     genesis_file: PathBuf,
 
-    #[arg(flatten)]
+    #[command(flatten)]
     logging: logging::Config,
 }
 

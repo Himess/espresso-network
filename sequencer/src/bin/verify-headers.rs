@@ -50,7 +50,7 @@ struct Options {
     /// URL of the HotShot query service.
     url: Url,
 
-    #[arg(flatten)]
+    #[command(flatten)]
     logging: logging::Config,
 }
 

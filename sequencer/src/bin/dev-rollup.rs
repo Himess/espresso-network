@@ -16,7 +16,7 @@ use url::Url;
 
 #[derive(Debug, Parser)]
 struct Options {
-    #[arg(flatten)]
+    #[command(flatten)]
     logging: logging::Config,
 
     #[command(subcommand)]

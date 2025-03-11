@@ -14,7 +14,7 @@ pub struct Options {
     #[arg(short, long, env = "ESPRESSO_SEQUENCER_HOTSHOT_EVENT_API_URL")]
     pub events_api_url: Url,
 
-    #[arg(flatten)]
+    #[command(flatten)]
     pub database_options: DatabaseOptions,
 }
 

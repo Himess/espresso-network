@@ -118,11 +118,11 @@ pub fn build_sqlite_path(path: &str) -> anyhow::Result<PathBuf> {
 #[derivative(Debug)]
 pub struct Options {
     #[cfg(not(feature = "embedded-db"))]
-    #[arg(flatten)]
+    #[command(flatten)]
     pub(crate) postgres_options: PostgresOptions,
 
     #[cfg(feature = "embedded-db")]
-    #[arg(flatten)]
+    #[command(flatten)]
     pub(crate) sqlite_options: SqliteOptions,
 
     /// Database URI for Postgres or SQLite.
@@ -153,11 +153,11 @@ pub struct Options {
     pub(crate) prune: bool,
 
     /// Pruning parameters.
-    #[arg(flatten)]
+    #[command(flatten)]
     pub(crate) pruning: PruningOptions,
 
     /// Pruning parameters for ephemeral consensus storage.
-    #[arg(flatten)]
+    #[command(flatten)]
     pub(crate) consensus_pruning: ConsensusPruningOptions,
 
     #[arg(long, env = "ESPRESSO_SEQUENCER_STORE_UNDECIDED_STATE", hide = true)]

@@ -154,10 +154,10 @@ struct Args {
     )]
     max_block_size: u64,
 
-    #[arg(flatten)]
+    #[command(flatten)]
     sql: persistence::sql::Options,
 
-    #[arg(flatten)]
+    #[command(flatten)]
     logging: logging::Config,
 }
 

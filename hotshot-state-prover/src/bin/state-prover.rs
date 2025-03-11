@@ -78,7 +78,7 @@ struct Args {
     #[arg(short, long, env = "ESPRESSO_SEQUENCER_STAKE_TABLE_CAPACITY", default_value_t = STAKE_TABLE_CAPACITY)]
     pub stake_table_capacity: usize,
 
-    #[arg(flatten)]
+    #[command(flatten)]
     logging: logging::Config,
 }
 

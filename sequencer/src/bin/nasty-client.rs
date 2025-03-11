@@ -77,13 +77,13 @@ struct Options {
     #[arg(env = "ESPRESSO_SEQUENCER_URL")]
     url: Url,
 
-    #[arg(flatten)]
+    #[command(flatten)]
     client_config: ClientConfig,
 
-    #[arg(flatten)]
+    #[command(flatten)]
     distribution: ActionDistribution,
 
-    #[arg(flatten)]
+    #[command(flatten)]
     logging: logging::Config,
 }
 

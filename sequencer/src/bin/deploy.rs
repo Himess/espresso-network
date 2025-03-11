@@ -102,7 +102,7 @@ struct Options {
     #[arg(short, long, name = "OUT", env = "ESPRESSO_DEPLOYER_OUT_PATH")]
     out: Option<PathBuf>,
 
-    #[arg(flatten)]
+    #[command(flatten)]
     contracts: DeployedContracts,
 
     /// If toggled, launch a mock prover contract with a smaller verification key.
@@ -138,7 +138,7 @@ struct Options {
     #[arg(long, env = "ESPRESSO_SEQUENCER_INITIAL_PERMISSIONED_STAKE_TABLE_PATH")]
     initial_stake_table_path: Option<PathBuf>,
 
-    #[arg(flatten)]
+    #[command(flatten)]
     logging: logging::Config,
 }
 

@@ -81,7 +81,7 @@ struct Options {
     )]
     update_toml_path: PathBuf,
 
-    #[arg(flatten)]
+    #[command(flatten)]
     logging: logging::Config,
 }
 
