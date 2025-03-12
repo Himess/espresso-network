@@ -55,6 +55,10 @@ pub struct Options {
     #[derivative(Debug(format_with = "Display::fmt"))]
     pub orchestrator_url: Url,
 
+    /// Libp2p bind address for incoming connections
+    #[arg(long, env = "ESPRESSO_SEQUENCER_LIBP2P_BIND_ADDRESS", default_value = "0.0.0.0:0")]
+    pub libp2p_bind_address: String,
+    
     /// The socket address of the HotShot CDN's main entry point (the marshal)
     /// in `IP:port` form
     #[arg(
