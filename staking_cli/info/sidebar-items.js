@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["display_stake_table","stake_table_info"]};

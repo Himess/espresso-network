@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["add_multiple_delegators","setup_stake_table_contract_for_test","stake_for_demo"]};

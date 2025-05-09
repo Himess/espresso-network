@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["genesis_vid"],"trait":["Transaction","UpdateDataSource","VersionedDataSource"]};

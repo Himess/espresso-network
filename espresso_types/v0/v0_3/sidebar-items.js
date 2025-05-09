@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["VERSION"],"enum":["StakeTableEvent"],"mod":["chain_config","header","nsproof","stake_table"],"struct":["AvidMNsProof","ChainConfig","CombinedStakeTable","DAMembers","Delegator","Header","ResolvableChainConfig","StakeTable","StakeTableFetcher","Validator"],"type":["EventKey","IndexedStake"]};

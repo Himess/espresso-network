@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["CommitmentAndMetadata","Consensus","ConsensusMetricsValue","ConsensusReadLockGuard","ConsensusUpgradableReadLockGuard","ConsensusWriteLockGuard","HotShotActionViews","OuterConsensus","PayloadWithMetadata"],"type":["CommitmentMap","LockedConsensusState","VidShares"]};

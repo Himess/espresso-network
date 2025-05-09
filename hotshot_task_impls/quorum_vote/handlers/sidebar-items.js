@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["get_computed_drb_result","handle_quorum_proposal_validated","store_drb_result","submit_vote","update_shared_state","verify_drb_result"]};

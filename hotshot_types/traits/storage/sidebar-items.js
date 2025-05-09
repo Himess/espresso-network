@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["storage_add_drb_result","storage_add_drb_result_impl"],"trait":["Storage"],"type":["StorageAddDrbResultFn"]};

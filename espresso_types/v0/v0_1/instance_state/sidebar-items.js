@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["UpgradeMode","UpgradeType"],"struct":["NoStorage","TimeBasedUpgrade","Upgrade","ViewBasedUpgrade"]};

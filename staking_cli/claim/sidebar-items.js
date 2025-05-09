@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["claim_validator_exit","claim_withdrawal"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["StakeTableEvent"],"struct":["CombinedStakeTable","DAMembers","Delegator","StakeTable","StakeTableFetcher","StakeTableUpdateTask","Validator"],"type":["EventKey","IndexedStake"]};

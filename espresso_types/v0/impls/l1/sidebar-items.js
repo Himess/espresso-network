@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["fetch_finalized_block_from_rpc"]};

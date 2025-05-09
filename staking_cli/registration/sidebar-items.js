@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["deregister_validator","prepare_bls_payload","register_validator","update_consensus_keys"]};
