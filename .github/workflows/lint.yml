@@ -48,6 +48,6 @@ jobs:
           -- -D warnings
 
       - name: Check if deprecated clap feature triggers warnings
-        run: 
+        run: |
           cargo clippy --workspace --all-targets --no-default-features --features clap/deprecated \
           -- -D warnings
