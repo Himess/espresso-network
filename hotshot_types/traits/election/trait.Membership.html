@@ -71,7 +71,7 @@
         &amp;self,
         view: TYPES::<a class="associatedtype" href="../node_implementation/trait.NodeType.html#associatedtype.View" title="type hotshot_types::traits::node_implementation::NodeType::View">View</a>,
         epoch: <a class="enum" href="https://doc.rust-lang.org/1.86.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;TYPES::<a class="associatedtype" href="../node_implementation/trait.NodeType.html#associatedtype.Epoch" title="type hotshot_types::traits::node_implementation::NodeType::Epoch">Epoch</a>&gt;,
-    ) -&gt; Result&lt;TYPES::<a class="associatedtype" href="../node_implementation/trait.NodeType.html#associatedtype.SignatureKey" title="type hotshot_types::traits::node_implementation::NodeType::SignatureKey">SignatureKey</a>&gt; { ... }
+    ) -&gt; <a class="type" href="../../../hotshot_utils/anytrace/type.Result.html" title="type hotshot_utils::anytrace::Result">Result</a>&lt;TYPES::<a class="associatedtype" href="../node_implementation/trait.NodeType.html#associatedtype.SignatureKey" title="type hotshot_types::traits::node_implementation::NodeType::SignatureKey">SignatureKey</a>&gt; { ... }
 <span class="item-spacer"></span>    fn <a href="#method.get_epoch_root" class="fn">get_epoch_root</a>(
         _membership: <a class="struct" href="https://doc.rust-lang.org/1.86.0/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;RwLock&lt;Self&gt;&gt;,
         _block_height: <a class="primitive" href="https://doc.rust-lang.org/1.86.0/std/primitive.u64.html">u64</a>,
@@ -158,7 +158,7 @@ calculations for epochs (epoch+1) and earlier.</p>
     &amp;self,
     view: TYPES::<a class="associatedtype" href="../node_implementation/trait.NodeType.html#associatedtype.View" title="type hotshot_types::traits::node_implementation::NodeType::View">View</a>,
     epoch: <a class="enum" href="https://doc.rust-lang.org/1.86.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;TYPES::<a class="associatedtype" href="../node_implementation/trait.NodeType.html#associatedtype.Epoch" title="type hotshot_types::traits::node_implementation::NodeType::Epoch">Epoch</a>&gt;,
-) -&gt; Result&lt;TYPES::<a class="associatedtype" href="../node_implementation/trait.NodeType.html#associatedtype.SignatureKey" title="type hotshot_types::traits::node_implementation::NodeType::SignatureKey">SignatureKey</a>&gt;</h4></section></summary><div class="docblock"><p>The leader of the committee for view <code>view_number</code> in <code>epoch</code>.</p>
+) -&gt; <a class="type" href="../../../hotshot_utils/anytrace/type.Result.html" title="type hotshot_utils::anytrace::Result">Result</a>&lt;TYPES::<a class="associatedtype" href="../node_implementation/trait.NodeType.html#associatedtype.SignatureKey" title="type hotshot_types::traits::node_implementation::NodeType::SignatureKey">SignatureKey</a>&gt;</h4></section></summary><div class="docblock"><p>The leader of the committee for view <code>view_number</code> in <code>epoch</code>.</p>
 <p>Note: this function uses a HotShot-internal error type.
 You should implement <code>lookup_leader</code>, rather than implementing this function directly.</p>
 <h5 id="errors-1"><a class="doc-anchor" href="#errors-1">§</a>Errors</h5>
