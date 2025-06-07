@@ -26,7 +26,7 @@ use espresso_types::{
     BackoffParams, EpochCommittees, L1ClientOptions, NodeState, PubKey, SeqTypes, ValidatedState,
 };
 use genesis::L1Finalized;
-use hotshot_libp2p_networking::network::behaviours::dht::store::persistent::DhtNoPersistence;
+use hotshot_libp2p_networking::network::behaviours::dht::store::persistent::DhtPersistentStorage;
 use libp2p::Multiaddr;
 use network::libp2p::split_off_peer_id;
 use options::Identity;
@@ -192,7 +192,10 @@ pub struct L1Params {
 }
 
 #[allow(clippy::too_many_arguments)]
-pub async fn init_node<P: SequencerPersistence + MembershipPersistence, V: Versions>(
+pub async fn init_node<
+    P: SequencerPersistence + MembershipPersistence + DhtPersistentStorage,
+    V: Versions,
+>(
     genesis: Genesis,
     network_params: NetworkParams,
     metrics: &dyn Metrics,
@@ -368,15 +371,18 @@ where
     }
 
     let epoch_height = genesis.epoch_height.unwrap_or_default();
+    let drb_difficulty = genesis.drb_difficulty.unwrap_or_default();
     let epoch_start_block = genesis.epoch_start_block.unwrap_or_default();
     let stake_table_capacity = genesis
         .stake_table_capacity
         .unwrap_or(hotshot_types::light_client::DEFAULT_STAKE_TABLE_CAPACITY);
 
     tracing::info!("setting epoch_height={epoch_height:?}");
+    tracing::info!("setting drb_difficulty={drb_difficulty:?}");
     tracing::info!("setting epoch_start_block={epoch_start_block:?}");
     tracing::info!("setting stake_table_capacity={stake_table_capacity:?}");
     network_config.config.epoch_height = epoch_height;
+    network_config.config.drb_difficulty = drb_difficulty;
     network_config.config.epoch_start_block = epoch_start_block;
     network_config.config.stake_table_capacity = stake_table_capacity;
 
@@ -526,6 +532,7 @@ where
         membership,
         network_config.config.epoch_height,
         &persistence.clone(),
+        network_config.config.drb_difficulty,
     );
 
     let instance_state = NodeState {
@@ -540,13 +547,14 @@ where
         epoch_height: Some(epoch_height),
         state_catchup: Arc::new(state_catchup_providers.clone()),
         coordinator: coordinator.clone(),
+        genesis_version: genesis.genesis_version,
     };
 
     // Initialize the Libp2p network
     let network = {
         let p2p_network = Libp2pNetwork::from_config(
             network_config.clone(),
-            DhtNoPersistence,
+            persistence.clone(),
             coordinator.membership().clone(),
             gossip_config,
             request_response_config,
@@ -958,6 +966,11 @@ pub mod testing {
                 anvil_provider: self.anvil_provider,
             }
         }
+
+        pub fn stake_table_capacity(mut self, stake_table_capacity: usize) -> Self {
+            self.config.stake_table_capacity = stake_table_capacity;
+            self
+        }
     }
 
     impl<const NUM_NODES: usize> Default for TestConfigBuilder<NUM_NODES> {
@@ -1014,6 +1027,7 @@ pub mod testing {
                 epoch_height: 30,
                 epoch_start_block: 1,
                 stake_table_capacity: hotshot_types::light_client::DEFAULT_STAKE_TABLE_CAPACITY,
+                drb_difficulty: 10,
             };
 
             let anvil = Anvil::new().args(["--slots-in-an-epoch", "0"]).spawn();
@@ -1229,6 +1243,7 @@ pub mod testing {
                 membership,
                 config.epoch_height,
                 &persistence.clone(),
+                config.drb_difficulty,
             );
 
             let node_state = NodeState::new(
@@ -1238,6 +1253,7 @@ pub mod testing {
                 Arc::new(catchup_providers.clone()),
                 V::Base::VERSION,
                 coordinator.clone(),
+                Version { major: 0, minor: 1 },
             )
             .with_current_version(V::Base::version())
             .with_genesis(state)
@@ -1325,11 +1341,8 @@ mod test {
     use hotshot::types::EventType::Decide;
     use hotshot_example_types::node_types::TestVersions;
     use hotshot_types::{
-        data::vid_commitment,
         event::LeafInfo,
-        traits::block_contents::{
-            BlockHeader, BlockPayload, EncodeBytes, GENESIS_VID_NUM_STORAGE_NODES,
-        },
+        traits::block_contents::{BlockHeader, BlockPayload},
     };
     use sequencer_utils::test_utils::setup_test;
     use testing::{wait_for_decide_on_handle, TestConfigBuilder};
@@ -1411,23 +1424,9 @@ mod test {
                 Payload::from_transactions([], &ValidatedState::default(), &NodeState::mock())
                     .await
                     .unwrap();
-            let genesis_commitment = {
-                // TODO we should not need to collect payload bytes just to compute vid_commitment
-                let payload_bytes = genesis_payload.encode();
-                vid_commitment::<TestVersions>(
-                    &payload_bytes,
-                    &genesis_ns_table.encode(),
-                    GENESIS_VID_NUM_STORAGE_NODES,
-                    <TestVersions as Versions>::Base::VERSION,
-                )
-            };
+
             let genesis_state = NodeState::mock();
-            Header::genesis(
-                &genesis_state,
-                genesis_commitment,
-                empty_builder_commitment(),
-                genesis_ns_table,
-            )
+            Header::genesis::<TestVersions>(&genesis_state, genesis_payload, &genesis_ns_table)
         };
 
         loop {

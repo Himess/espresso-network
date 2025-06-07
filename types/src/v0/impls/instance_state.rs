@@ -45,6 +45,7 @@ pub struct NodeState {
     #[debug(skip)]
     pub coordinator: EpochMembershipCoordinator<SeqTypes>,
     pub epoch_height: Option<u64>,
+    pub genesis_version: Version,
 
     /// Map containing all planned and executed upgrades.
     ///
@@ -112,6 +113,7 @@ impl NodeState {
         catchup: impl StateCatchup + 'static,
         current_version: Version,
         coordinator: EpochMembershipCoordinator<SeqTypes>,
+        genesis_version: Version,
     ) -> Self {
         Self {
             node_id,
@@ -128,6 +130,7 @@ impl NodeState {
             current_version,
             epoch_height: None,
             coordinator,
+            genesis_version,
         }
     }
 
@@ -149,7 +152,7 @@ impl NodeState {
         )));
 
         let storage = TestStorage::default();
-        let coordinator = EpochMembershipCoordinator::new(membership, 100, &storage);
+        let coordinator = EpochMembershipCoordinator::new(membership, 100, &storage, 10);
         Self::new(
             0,
             chain_config,
@@ -157,6 +160,7 @@ impl NodeState {
             Arc::new(mock::MockStateCatchup::default()),
             StaticVersion::<0, 1>::version(),
             coordinator,
+            Version { major: 0, minor: 1 },
         )
     }
 
@@ -177,7 +181,7 @@ impl NodeState {
             StakeTableFetcher::mock(),
         )));
         let storage = TestStorage::default();
-        let coordinator = EpochMembershipCoordinator::new(membership, 100, &storage);
+        let coordinator = EpochMembershipCoordinator::new(membership, 100, &storage, 10);
 
         Self::new(
             0,
@@ -186,6 +190,7 @@ impl NodeState {
             Arc::new(mock::MockStateCatchup::default()),
             StaticVersion::<0, 2>::version(),
             coordinator,
+            Version { major: 0, minor: 1 },
         )
     }
 
@@ -205,7 +210,7 @@ impl NodeState {
         )));
 
         let storage = TestStorage::default();
-        let coordinator = EpochMembershipCoordinator::new(membership, 100, &storage);
+        let coordinator = EpochMembershipCoordinator::new(membership, 100, &storage, 10);
         Self::new(
             0,
             ChainConfig::default(),
@@ -213,6 +218,7 @@ impl NodeState {
             mock::MockStateCatchup::default(),
             StaticVersion::<0, 3>::version(),
             coordinator,
+            Version { major: 0, minor: 1 },
         )
     }
 
@@ -286,7 +292,7 @@ impl Default for NodeState {
             StakeTableFetcher::mock(),
         )));
         let storage = TestStorage::default();
-        let coordinator = EpochMembershipCoordinator::new(membership, 100, &storage);
+        let coordinator = EpochMembershipCoordinator::new(membership, 100, &storage, 10);
 
         Self::new(
             1u64,
@@ -295,6 +301,7 @@ impl Default for NodeState {
             Arc::new(mock::MockStateCatchup::default()),
             StaticVersion::<0, 1>::version(),
             coordinator,
+            Version { major: 0, minor: 1 },
         )
     }
 }
